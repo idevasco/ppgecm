@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <title>Adicionar Produção</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container py-4">
+
+        <div class="mb-4">
+           <img src="{{ url_for('static', filename='banner.png') }}" alt="Banner" class="img-fluid rounded shadow-sm w-100">
+        </div>
+
+    <h2>Adicionar Produção por DOI</h2>
+    <form method="POST">
+        <div class="mb-3">
+            <label for="doi" class="form-label">DOI</label>
+            <input type="text" class="form-control" id="doi" name="doi" placeholder="10.xxxx/yyyyyy" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Buscar e Adicionar</button>
+        <a href="{{ url_for('home') }}" class="btn btn-secondary">Voltar</a>
+    </form>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="alert alert-danger mt-3">
+                {{ messages[0] }}
+            </div>
+        {% endif %}
+    {% endwith %}
+</body>
+</html>
+

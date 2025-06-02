@@ -1,0 +1,96 @@
+<!-- templates/edit.html -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Produção</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container py-4">
+  
+        <div class="mb-4">
+           <img src="{{ url_for('static', filename='banner.png') }}" alt="Banner" class="img-fluid rounded shadow-sm w-100">
+        </div>
+    
+        <h2 class="mb-4">Editar Produção</h2>
+        <form method="POST">
+            <div class="mb-3">
+                <label for="doi" class="form-label">DOI</label>
+                <input type="text" name="doi" class="form-control" value="{{ registro.doi }}" readonly>
+            </div>       
+            <div class="mb-3">
+                <label for="titulo" class="form-label">Título</label>
+                <input type="text" name="titulo" class="form-control" value="{{ registro.titulo }}" readonly>
+            </div>
+            <div class="mb-3">
+                <label for="authors" class="form-label">Autores (separados por vírgula)</label>
+                <input type="text" name="authors" class="form-control" value="{{ registro.authors }}" readonly>
+            </div>
+            <div class="mb-3">
+                <label for="journal" class="form-label">Revista</label>
+                <input type="text" name="journal" class="form-control" value="{{ registro.journal }}" readonly>
+            </div>                       
+            <div class="mb-3">
+                <label for="year" class="form-label">Ano</label>
+                <input type="number" name="year" class="form-control" value="{{ registro.year }}" readonly>
+            </div>
+            <div class="mb-3">
+                <label for="qualificacao" class="form-label">Qualificação da Revista</label>
+                <input type="text" name="qualificacao" class="form-control" value="{{ registro.qualificacao }}">
+            </div>            
+            <div class="mb-3">
+                <label for="docente" class="form-label">Docente</label>
+                <select class="form-select" name="docente" id="docente" required>
+                  <option value="">Selecione...</option>
+                  {% for user in users %}
+                     <option value="{{ user.full_name }}" {% if user.full_name == registro.docente %}selected{% endif %}>
+                      {{ user.full_name }} 
+                     </option>
+                  {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="discente" class="form-label">Selecione o Discente/Egresso</label>
+                <select name="discente" class="form-select">
+                    {% for autor in authors_list %}
+                        <option value="{{ autor }}" {% if autor == registro.discente %}selected{% endif %}>{{ autor }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="graduacao" class="form-label">Discente de Graduação</label>
+                <select class="form-select" id="graduacao" name="graduacao">
+                  <option value="">Nenhum</option>
+                    {% for autor in authors_list %}
+                       <option value="{{ autor }}" {% if autor == registro.graduacao %}selected{% endif %}>{{ autor }}</option>
+                    {% endfor %}
+                </select>
+            </div>                      
+            <div class="mb-3">
+                <label for="nacional" class="form-label">Colaborador Nacional</label>
+                <select class="form-select" id="nacional" name="nacional">
+                  <option value="">Nenhum</option>
+                    {% for autor in authors_list %}
+                       <option value="{{ autor }}" {% if autor == registro.nacional %}selected{% endif %}>{{ autor }}</option>
+                    {% endfor %}
+                </select>
+            </div>                        
+            <div class="mb-3">
+                <label for="internacional" class="form-label">Colaborador Internacional</label>
+                <select class="form-select" id="internacional" name="internacional">
+                  <option value="">Nenhum</option>
+                    {% for autor in authors_list %}
+                       <option value="{{ autor }}" {% if autor == registro.internacional %}selected{% endif %}>{{ autor }}</option>
+                    {% endfor %}
+                </select>
+            </div>                        
+            
+            <button type="submit" class="btn btn-primary">Salvar</button>
+            <a href="{{ url_for('home') }}" class="btn btn-secondary ms-2">Cancelar</a>
+        </form>
+    </div>
+</body>
+</html>
+
+
