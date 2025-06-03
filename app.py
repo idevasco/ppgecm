@@ -219,10 +219,8 @@ def setup_admin():
         return redirect(url_for('login'))
     return render_template('setup_admin.html')
 
-@app.before_first_request
-def create_tables():
-    with app.app_context():
-        db.create_all()
+with app.app_context():
+    db.create_all()
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
