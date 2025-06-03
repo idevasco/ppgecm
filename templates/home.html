@@ -33,6 +33,7 @@
            {% if current_user.is_admin %}
             <a href="{{ url_for('manage_users') }}" class="btn btn-outline-secondary me-2">Cadastro de Docentes</a>
           {% endif %}
+          <a href="{{ url_for('change_password') }}" class="btn btn-warning me-2">Alterar Senha</a>
           <a href="{{ url_for('logout') }}" class="btn btn-danger">Sair</a>
         </div>
       </div>
@@ -54,7 +55,7 @@
             <tr>
               <th class="sortable" onclick="sortTable(0)">Ano</th>
               <th class="sortable" onclick="sortTable(1)">Docente</th>
-              <th class="sortable" onclick="sortTable(2)">Discente</th>
+              <th class="sortable" onclick="sortTable(2)">Discente/ Egresso</th>
               <th class="sortable" onclick="sortTable(2)">Discente Graduação</th>
               <th class="sortable" onclick="sortTable(2)">Colaborador Nacional</th>
               <th class="sortable" onclick="sortTable(2)">Colaborador Internacional</th>              
@@ -79,10 +80,12 @@
               <td>{{ registro.titulo }}</td>
               <td>{{ registro.usuario.full_name }}</td>
               <td>
+               
                 {% if current_user.is_admin or current_user.id == registro.user_id %}
                   <a href="{{ url_for('edit', id=registro.id) }}" class="btn btn-sm btn-primary">Editar</a>
-                  <a href="{{ url_for('delete', id=registro.id) }}" class="btn btn-sm btn-danger" onclick="return confirm('Deseja excluir este registro?')">Excluir</a>
+                  <a href="{{ url_for('delete', id=registro.id) }}" class="btn btn-sm btn-danger" onclick="return confirm('Deseja excluir este registro?')">Excluir</a>                 
                 {% endif %}
+               
               </td>
             </tr>
             {% endfor %}

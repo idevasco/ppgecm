@@ -206,7 +206,26 @@ def delete(id):
 def reset_db():
     db.drop_all()
     db.create_all()
-    return "Banco de dados reiniciado com sucesso."    
+    return "Banco de dados reiniciado com sucesso."
+    
+@app.route('/change_password', methods=['GET', 'POST'])
+@login_required
+def change_password():
+    if request.method == 'POST':
+        current_pw = request.form['current_password']
+        new_pw = request.form['new_password']
+        confirm_pw = request.form['confirm_password']
+
+        if not check_password_hash(current_user.password, current_pw):
+            flash('Senha atual incorreta.')
+        elif new_pw != confirm_pw:
+            flash('As novas senhas não coincidem.')
+        else:
+            current_user.password = generate_password_hash(new_pw, method='pbkdf2:sha256')
+            db.session.commit()
+            flash('Senha alterada com sucesso.')
+            return redirect(url_for('home'))
+    return render_template('change_password.html')            
 
 @app.route('/setup_admin', methods=['GET', 'POST'])
 def setup_admin():
