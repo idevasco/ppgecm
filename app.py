@@ -201,6 +201,12 @@ def delete(id):
         db.session.delete(registro)
         db.session.commit()
     return redirect(url_for('home'))
+    
+@app.route('/reset_db')
+def reset_db():
+    db.drop_all()
+    db.create_all()
+    return "Banco de dados reiniciado com sucesso."    
 
 @app.route('/setup_admin', methods=['GET', 'POST'])
 def setup_admin():
