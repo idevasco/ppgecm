@@ -83,7 +83,11 @@
                
                 {% if current_user.is_admin or current_user.id == registro.user_id %}
                   <a href="{{ url_for('edit', id=registro.id) }}" class="btn btn-sm btn-primary">Editar</a>
-                  <a href="{{ url_for('delete', id=registro.id) }}" class="btn btn-sm btn-danger" onclick="return confirm('Deseja excluir este registro?')">Excluir</a>                 
+                  <a href="{{ url_for('delete', id=registro.id) }}" class="btn btn-sm btn-danger" 
+                                       onclick="return confirm('Deseja excluir este registro?')">Excluir</a>                 
+                  {% if registro.doi %}
+                      <a href="https://doi.org/{{ registro.doi }}" target="_blank" class="btn btn-secondary btn-sm">Ver Artigo</a>
+                  {% endif %}                                                 
                 {% endif %}
                
               </td>

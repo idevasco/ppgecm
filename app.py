@@ -35,6 +35,9 @@ class Registro(db.Model):
     docente = db.Column(db.String(200), nullable=True)
     discente = db.Column(db.String(200), nullable=True)
     graduacao = db.Column(db.String(200), nullable=True)
+    nacional = db.Column(db.String(200), nullable=True)
+    internacional = db.Column(db.String(200), nullable=True)
+    qualificacao = db.Column(db.String(200), nullable=True)                                    
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
 @login_manager.user_loader
@@ -97,13 +100,8 @@ def signup():
 def manage_users():
     if not current_user.is_admin:
         return redirect(url_for('home'))
-    sort_by = request.args.get('sort_by', 'full_name')
-    direction = request.args.get('direction', 'asc')
-    sort_column = getattr(User, sort_by, User.full_name)
-    users = User.query.order_by(
-        sort_column.desc() if direction == 'desc' else sort_column.asc()
-    ).all()
-    return render_template('manage_users.html', users=users, current_sort=sort_by, current_direction=direction)
+    users = User.query.all()
+    return render_template('manage_users.html', users=users)
 
 @app.route('/edit_user/<int:id>', methods=['GET', 'POST'])
 @login_required
@@ -184,11 +182,14 @@ def edit(id):
         registro.titulo = request.form['titulo']
         registro.authors = request.form['authors']
         registro.journal = request.form['journal']
+        registro.qualificacao = request.form['qualificacao']   
         registro.year = request.form['year']
         registro.doi = novo_doi
         registro.docente = request.form['docente']
         registro.discente = request.form['discente']
         registro.graduacao = request.form['graduacao']
+        registro.nacional = request.form['nacional']
+        registro.internacional = request.form['internacional']   
         db.session.commit()
         return redirect(url_for('home'))
     return render_template('edit.html', registro=registro, authors_list=authors_list, users=users)
